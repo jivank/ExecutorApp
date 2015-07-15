@@ -22,12 +22,12 @@ def static_proxy(path):
 def execute(script):
     script = script.split('/')[-1]
     if script not in files(): return 'Error'
-    active_processes.append((script,subprocess.Popen([get_mypath()+'/'+script],stdout=subprocess.PIPE)))
+    active_processes.insert(0,(script,subprocess.Popen([get_mypath()+'/'+script],stdout=subprocess.PIPE)))
 
-    active_processes[-1][1].been_read = False
-    active_processes[-1][1].output = ''
-    active_processes[-1][1].started = time.time()*1000
-    return json.dumps({'pid':active_processes[-1][1].pid})
+    active_processes[0][1].been_read = False
+    active_processes[0][1].output = ''
+    active_processes[0][1].started = time.time()*1000
+    return json.dumps({'pid':active_processes[0][1].pid})
 
 @app.route('/listing')
 def listing():
